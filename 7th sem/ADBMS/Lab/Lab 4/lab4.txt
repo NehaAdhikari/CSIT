@@ -1,0 +1,39 @@
+SQL> create table Employee(
+  2  eid number(5),
+  3  ename varchar2(20),
+  4  manager_id number(5)
+  5  );
+
+Table created.
+
+SQL> insert all
+  2  into Employee values(1,'Ram',NULL)
+  3  into Employee values(2,'Shyam',1)
+  4  into Employee values(3,'Hari',1)
+  5  into Employee values(4,'Gopal',3)
+  6  select 1 from dual;
+
+4 rows created.
+
+SQL> select * from Employee;
+
+       EID ENAME                MANAGER_ID
+---------- -------------------- ----------
+         1 Ram
+         2 Shyam                         1
+         3 Hari                          1
+         4 Gopal                         3
+
+
+SQL> select e1.ename as Employee,e2.ename as Supervisor from Employee e1 left join Employee e2 on e1.manager_id = e2.eid;
+
+EMPLOYEE             SUPERVISOR
+-------------------- --------------------
+Hari                 Ram
+Shyam                Ram
+Gopal                Hari
+Ram
+
+SQL> commit;
+
+Commit complete.

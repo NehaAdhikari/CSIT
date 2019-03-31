@@ -1,0 +1,15 @@
+
+
+
+SQL> create index student_crn on student(crn);
+create index student_crn on student(crn)
+                                    *
+ERROR at line 1:
+ORA-01408: such column list already indexed
+
+
+SQL> create index student_email on student(email) compute statistics;
+
+Index created.
+
+

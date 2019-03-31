@@ -1,0 +1,25 @@
+ SQL> create view Transaction as select salesperson,cname from customer c inner join sales s on c.cid = s.cid;
+ View created.
+ SQL> select * from Transaction;
+
+SALESPERSON          CNAME
+-------------------- --------------------
+Ram                  Ram
+Alice                Shyam
+Guru                 Hari
+
+SQL> create or replace view Transaction as select s.sid,salesperson,c.cid,cname from customer c inner join sales s on c.cid = s.cid;
+
+View created.
+
+SQL> select * from Transaction;
+
+       SID SALESPERSON                 CID CNAME
+---------- -------------------- ---------- --------------------
+         1 Ram                           1 Ram
+         2 Alice                         2 Shyam
+         3 Guru                          3 Hari
+
+SQL> commit;
+
+Commit complete.

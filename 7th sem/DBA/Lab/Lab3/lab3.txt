@@ -1,0 +1,195 @@
+SQL> create table student(
+  2  crn number(5) primary key,
+  3  name varchar2(20),
+  4  email varchar2(20),
+  5  mobile number(10),
+  6  parents_name varchar2(20)
+  7  );
+
+Table created.
+
+SQL> create table department(
+  2  deptid number(5) primary key,
+  3  dname varchar2(20) check (dname=upper(dname)),
+  4  capacity number(2) check (capacity<=48)
+  5  );
+
+Table created.
+
+SQL> create table enroll(
+  2  eid number(5) primary key,
+  3  crn number(5),
+  4  foreign key (crn) references student(crn),
+  5  deptid number(5),
+  6  foreign key (deptid) references department(deptid),
+  7  enrolldate date
+  8  );
+
+Table created.
+
+SQL> create table accounts(
+  2  aid number(5) primary key,
+  3  crn number(5),
+  4  foreign key (crn) references student(crn),
+  5  feepaid number(5),
+  6  totalfee number(5),
+  7  paydate date
+  8  );
+
+Table created.
+
+SQL> insert all
+  2  into student values (1,'Neha Adhikari','neha@gmail.com',1234567890,'Ram Adhikari')
+  3  into student values (2,'Ruxana Maharjan','ruxana@gmail.com',2345678901,'Sita Maharjan')
+  4  into student values (3,'Nam Kirat','nam@gmail.com',3456789012,'Gita Kirat')
+  5  into student values (4,'Srijal K.C.','srijal@gmail.com',4567890123,'Lila K.C.')
+  6  into student values (5,'Nirma Thapa','nirma@gmail.com',5678901234,'Riwaz Thapa')
+  7  select 1 from dual;
+
+5 rows created.
+
+SQL> insert into department values (501,'BBA',30);
+
+1 row created.
+
+SQL> insert into department values (601,'BCA',50);
+insert into department values (601,'BCA',50)
+*
+ERROR at line 1:
+ORA-02290: check constraint (NEHADBA.SYS_C004230) violated
+
+SQL> insert into department values (601,'BCA',40);
+
+1 row created.
+
+SQL> insert into department values (401,'CSIT',48);
+
+SQL> insert all
+  2  into enroll values (111,3,501,'20-DEC-2013')
+  3  into enroll values (112,2,401,'10-MAY-2013')
+  4  into enroll values (113,1,601,'10-FEB-2013')
+  5  into enroll values (114,4,501,'15-DEC-2013')
+  6  into enroll values (115,5,401,'15-MAY-2013')
+  7  select 1 from dual;
+
+5 rows created.
+
+SQL> insert all
+  2  into accounts values (201,2,10000,50000,'11-FEB-2014')
+  3  into accounts values (202,1,10000,50000,'11-MAY-2014')
+  4  into accounts values (203,3,20000,70000,'21-JAN-2014')
+  5  into accounts values (204,5,30000,50000,'21-JAN-2014')
+  6  into accounts values (205,4,30000,70000,'16-MAY-2014')
+  7  select 1 from dual;
+
+5 rows created.
+
+SQL> select * from student;
+
+       CRN NAME                 EMAIL                    MOBILE PARENTS_NAME
+---------- -------------------- -------------------- ---------- --------------------
+         1 Neha Adhikari        neha@gmail.com       1234567890 Ram Adhikari
+         2 Ruxana Maharjan      ruxana@gmail.com     2345678901 Sita Maharjan
+         3 Nam Kirat            nam@gmail.com        3456789012 Gita Kirat
+         4 Srijal K.C.          srijal@gmail.com     4567890123 Lila K.C.
+         5 Nirma Thapa          nirma@gmail.com      5678901234 Riwaz Thapa
+
+SQL> select * from department;
+
+    DEPTID DNAME                  CAPACITY
+---------- -------------------- ----------
+       501 BBA                          30
+       601 BCA                          40
+       401 CSIT                         48
+
+SQL> select * from enroll;
+
+       EID        CRN     DEPTID ENROLLDAT
+---------- ---------- ---------- ---------
+       111          3        501 20-DEC-13
+       112          2        401 10-MAY-13
+       113          1        601 10-FEB-13
+       114          4        501 15-DEC-13
+       115          5        401 15-MAY-13
+
+SQL> select * from accounts;
+
+       AID        CRN    FEEPAID   TOTALFEE PAYDATE
+---------- ---------- ---------- ---------- ---------
+       201          2      10000      50000 11-FEB-14
+       202          1      10000      50000 11-MAY-14
+       203          3      20000      70000 21-JAN-14
+       204          5      30000      50000 21-JAN-14
+       205          4      30000      70000 16-MAY-14
+  
+SQL> create view Student_Details as select name,mobile,email from student;
+
+View created.
+
+SQL> select * from Student_Details;
+
+NAME                     MOBILE EMAIL
+-------------------- ---------- --------------------
+Neha Adhikari        1234567890 neha@gmail.com
+Ruxana Maharjan      2345678901 ruxana@gmail.com
+Nam Kirat            3456789012 nam@gmail.com
+Srijal K.C.          4567890123 srijal@gmail.com
+Nirma Thapa          5678901234 nirma@gmail.com
+
+SQL> create view Student_Department as select name,dname from student s inner join (department d inner join enroll e on d.deptid = e.deptid) on s.crn = e.crn;
+
+View created.
+
+SQL> select * from Student_Department;
+
+NAME                 DNAME
+-------------------- --------------------
+Neha Adhikari        BCA
+Ruxana Maharjan      CSIT
+Nam Kirat            BBA
+Srijal K.C.          BBA
+Nirma Thapa          CSIT
+
+SQL> create view Student_Department_Enroll as select name,dname,enrolldate from student s inner join (department d inner join enroll e on d.deptid = e.deptid) on s.crn = e.crn;
+
+View created.
+
+SQL> select * from Student_Department_Enroll;
+NAME                 DNAME                ENROLLDAT
+-------------------- -------------------- ---------
+Neha Adhikari        BCA                  10-FEB-13
+Ruxana Maharjan      CSIT                 10-MAY-13
+Nam Kirat            BBA                  20-DEC-13
+Srijal K.C.          BBA                  15-DEC-13
+Nirma Thapa          CSIT                 15-MAY-13
+
+SQL> create view Student_Department_Feepaid as select name,dname,feepaid from student s inner join (department d inner join (enroll e inner join accounts a on e.crn = a.crn ) on d.deptid = e.deptid) on s.crn = a.crn;
+
+View created.
+
+SQL> select * from Student_Department_Feepaid;
+
+NAME                 DNAME                   FEEPAID
+-------------------- -------------------- ----------
+Neha Adhikari        BCA                       10000
+Ruxana Maharjan      CSIT                      10000
+Nam Kirat            BBA                       20000
+Srijal K.C.          BBA                       30000
+Nirma Thapa          CSIT                      30000
+
+
+SQL> create user a identified by a;
+
+User created.
+
+SQL> create user b identified by b;
+
+User created.
+
+SQL> create user c identified by c;
+
+User created.
+
+SQL> create user d identified by d;
+
+User created.
