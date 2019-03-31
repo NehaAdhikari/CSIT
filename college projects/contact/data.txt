@@ -1,0 +1,72 @@
+BEGIN
+name:Gita;
+land:;
+cell:;
+mail:noreply@gmail.com;
+END
+BEGIN
+name:Neha Silwal;
+land:012334489;
+cell:9851023478;
+mail:neha@yahoo;
+END
+BEGIN
+name:Neha Adhikari;
+land:014990555;
+cell:9860123456;
+mail:neha@gmail;
+END
+BEGIN
+name:Rihan Dahal;
+land:015205269;
+cell:9842347659;
+mail:rihan@gmail.com;
+END
+BEGIN
+name:Parish Shrestha;
+land:01-6654432;
+cell:987666765;
+mail:;
+END
+BEGIN
+name:Ram;
+land:01-6666666;
+cell:9808887888;
+mail:ram@example.com;
+END
+BEGIN
+name:Ruxana;
+land:;
+cell:;
+mail:ruxana@gmail.com;
+END
+BEGIN
+name:Srijal;
+land:;
+cell:9804425333;
+mail:srijal@outlok.com;
+END
+BEGIN
+name:Namkong Hang Kirat;
+land:;
+cell:;
+mail:namkong@gmail.com;
+END
+BEGIN
+name:Bishal Thapa Shrestha;
+land:;
+cell:;
+mail:;
+END
+BEGIN
+name:Ashish Shrestha;
+land:01-66664627;
+cell:9873636362;
+mail:ashiz10@gmail.com;
+END
+BEGIN
+name:test;
+land:;
+cell:9865372;
+mail:;
+END
