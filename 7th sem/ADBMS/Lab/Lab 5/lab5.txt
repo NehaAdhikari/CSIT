@@ -1,0 +1,25 @@
+SQL> create table Dept(
+  2  did number(5) primary key,
+  4  dname varchar2(20),
+  5  total_sal number(8)
+  6  );
+Table created.
+
+SQL> create table Emp(
+  2  eid number(5) primary key,
+  3  ename varchar2(20),
+  4  d_id number(5),
+  5  foreign key (d_id) references Dept(did),
+  6  sal number(8)
+  7  );
+
+Table created.
+
+SQL> insert all
+  2  into Dept values (501,'CSIT',0)
+  3  into Dept values (502,'BBA',0)
+  4  into Dept values (503,'BCA',0)
+  5  select 1 from dual;
+
+3 rows created.
+
