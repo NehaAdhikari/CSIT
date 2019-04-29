@@ -23,3 +23,82 @@ SQL> insert all
 
 3 rows created.
 
+SQL> select * from Dept;
+
+       DID DNAME                 TOTAL_SAL
+---------- -------------------- ----------
+       501 CSIT                          0
+       502 BBA                           0
+       503 BCA                           0
+
+SQL> create or replace  trigger trg_after_Emp_insert
+  2  after insert on Emp
+  3  for each row
+  4  begin
+  5     update Dept set total_sal = total_sal + :new.sal where did = :new.d_id;
+  6  end;
+  7  /
+
+Trigger created.
+
+SQL> insert all
+  3  into Emp values (1,'Neha Adhikari',501,10000);
+  2  into Emp values (2,'Nam Kirat',502,12000)
+  3  into Emp values (3,'Srijal Kc',503,15000)
+  4  select 1 from dual;
+
+3 rows created.
+
+SQL> select * from Dept;
+
+       DID DNAME                 TOTAL_SAL
+---------- -------------------- ----------
+       501 CSIT                      10000
+       502 BBA                       12000
+       503 BCA                       15000
+
+SQL> create trigger trg_after_Emp_delete
+  2  after delete on Emp
+  3  for each row
+  4  begin
+  5  update Dept set total_sal = total_sal - :old.sal where did = :old.d_id;
+  6  end;
+  7  /
+
+Trigger created.
+
+SQL> delete from Emp where eid=2;
+
+1 row deleted.
+
+SQL> select * from Dept;
+
+       DID DNAME                 TOTAL_SAL
+---------- -------------------- ----------
+       501 CSIT                      10000
+       502 BBA                           0
+       503 BCA                       15000
+
+SQL> create or replace trigger trg_after_Emp_update
+  2  after update on Emp
+  3  for each row
+  4  begin
+  5  update Dept set total_sal = total_sal - :old.sal where did = :old.d_id;
+  6  update Dept set total_sal = total_sal + :new.sal where did = :new.d_id;
+  7  end;
+  8  /
+
+Trigger created.
+
+SQL> update Emp set sal = 20000 where eid=1;
+
+1 row updated.
+
+SQL> select * from Dept;
+
+       DID DNAME                 TOTAL_SAL
+---------- -------------------- ----------
+       501 CSIT                      20000
+       502 BBA                           0
+       503 BCA                       15000
+
