@@ -1,0 +1,27 @@
+After changing password from PWDorcl.ora file
+C:\Windows\system32>sqlplus /nolog
+
+SQL*Plus: Release 12.2.0.1.0 Production on Sat Apr 27 21:59:27 2019
+
+Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+SQL> conn sys/manager123. as sysdba
+Connected.
+
+SQL> create user nehaadbms identified by nehaadbms;
+create user nehaadbms identified by nehaadbms
+            *
+ERROR at line 1:
+ORA-65096: invalid common user or role name
+
+
+SQL> alter session set "_ORACLE_SCRIPT"=true;
+
+Session altered.
+
+SQL> create user nehaadbms identified by nehaadbms;
+
+User created.
+SQL> grant dba to nehaadbms;
+
+Grant succeeded.
