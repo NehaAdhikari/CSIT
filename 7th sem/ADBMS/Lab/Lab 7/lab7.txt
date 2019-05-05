@@ -1,0 +1,69 @@
+SQL> create table student (
+  2  std_id number(3) primary key,
+  3  std_name varchar2(20)
+  4  );
+
+Table created.
+
+SQL> create table student_address (
+  2  std_id number(3),
+  3  foreign key (std_id) references student (std_id),
+  4  std_address varchar2(20),
+  5  vst date,
+  6  vet date
+  7  );
+
+Table created.
+
+SQL> insert all
+    into student values (1,'Neha Adhikari')
+    into student values (2,'Ruxana Maharjan')
+    into student values (3,'Nam Kirat');
+    into student_address values (1,'KTM','20-JAN-2018','30-DEC-2018')
+    into student_address values (1,'PKR','20-JAN-2019','30-DEC-2090')
+    into student_address values (2,'BKT','20-JAN-2017','30-DEC-2090')
+    into student_address values (3,'LTP','20-MAY-2017','12-MAY-2018');
+    select * from dual;
+
+SQL> select * from student;
+
+    STD_ID STD_NAME
+---------- --------------------
+         1 Neha Adhikari
+         2 Ruxana Maharjan
+
+SQL> select * from student_address;
+
+    STD_ID STD_ADDRESS          VST       VET
+---------- -------------------- --------- ---------
+         1 KTM                  20-JAN-18 30-DEC-18
+         1 KTM                  20-JAN-19 30-DEC-90
+         2 PKR                  20-JAN-17 30-DEC-90
+         3 LTP                  20-MAY-17 12-MAY-18
+
+
+SQL> select s.std_id,std_name,std_address from student s 
+        inner join student_address sa on s.std_id = sa.std_id 
+        where trunc(SYSDATE) between sa.vst and sa.vet;
+
+    STD_ID STD_NAME             STD_ADDRESS
+---------- -------------------- --------------------
+         1 Neha Adhikari        KTM
+         2 Ruxana Maharjan      PKR
+
+SQL> select s.std_id, std_name, std_address from student s left join student_address sa on s.std_id = sa.std_id and trunc(sysdate) between
+sa.vst and sa.vet;
+
+    STD_ID STD_NAME             STD_ADDRESS
+---------- -------------------- --------------------
+         1 Neha Adhikari        KTM
+         2 Ruxana Maharjan      PKR
+         3 Nam Kirat
+
+SQL> select s.std_id, std_name, std_address from student s left join (select std_id,std_address from student_address  where trunc(sysdate)between vst and vet) sa on s.std_id = sa.std_id;
+
+    STD_ID STD_NAME             STD_ADDRESS
+---------- -------------------- --------------------
+         1 Neha Adhikari        KTM
+         2 Ruxana Maharjan      PKR
+         3 Nam Kirat
