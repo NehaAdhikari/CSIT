@@ -1,15 +1,40 @@
-
-
-
 SQL> create index student_crn on student(crn);
 create index student_crn on student(crn)
                                     *
 ERROR at line 1:
 ORA-01408: such column list already indexed
 
-
-SQL> create index student_email on student(email) compute statistics;
+SQL> create index student_email on student(email);
 
 Index created.
 
+
+ create table depar(
+  2  id number(4) primary key,
+  3  nam varchar2(20)
+  4  );
+  Table created.
+
+  SQL> create sequence seq_depar_id
+  2  start with 101
+  3  increment by 100;
+
+Sequence created.
+
+SQL> insert into depar values (seq_depar_id.nextval,'BBA');
+
+1 row created.
+
+SQL> insert into depar values (seq_depar_id.nextval,'CSIT');
+
+1 row created.
+
+SQL> select * from depar;
+
+        ID NAM
+---------- --------------------
+       201 BBA
+       301 CSIT
+
+SQL> commit;
 
